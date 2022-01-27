@@ -8,8 +8,12 @@ import {
   Link,
   useRouteMatch,
 } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
+import { isDarkAtom } from "../atoms";
+import { HeaderBtn } from "../components/HeaderButton";
+import { Header, HeaderColumn } from "../components/Header";
 import Chart from "./Chart";
 import Price from "./Price";
 
@@ -24,13 +28,6 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const Header = styled.header`
-  height: 10vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const Loader = styled.span`
   text-align: center;
   display: block;
@@ -39,7 +36,7 @@ const Loader = styled.span`
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.componentColor};
   padding: 10px 20px;
   border-radius: 10px;
 `;
@@ -73,7 +70,7 @@ const Tab = styled.span<{ isActive: boolean }>`
   text-transform: uppercase;
   font-size: 12px;
   font-weight: 400;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.componentColor};
   padding: 7px 0px;
   border-radius: 10px;
   color: ${(props) =>
@@ -146,27 +143,12 @@ interface PriceData {
   };
 }
 
-/*const [loading, setLoading] = useState(true);
-  const [info, setInfo] = useState<InfoData>();
-  const [priceInfo, setPriceInfo] = useState<PriceData>();
-
-  useEffect(() => {
-    (async () => {
-      const infoData = await (
-        await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-      ).json();
-      const priceData = await (
-        await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-      ).json();
-      setInfo(infoData);
-      setPriceInfo(priceData);
-      setLoading(false);
-    })();
-  }, [coinId]); */
-
 function Coin() {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
+
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
 
   const priceMatch = useRouteMatch("/:coinId/price");
   const chartMatch = useRouteMatch("/:coinId/chart");
@@ -193,9 +175,19 @@ function Coin() {
         </title>
       </Helmet>
       <Header>
-        <Title>
-          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
-        </Title>
+        <HeaderColumn>
+          <HeaderBtn>
+            <Link to={{ pathname: `/` }}>&larr;</Link>{" "}
+          </HeaderBtn>
+        </HeaderColumn>
+        <HeaderColumn>
+          <Title>
+            {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+          </Title>
+        </HeaderColumn>
+        <HeaderColumn>
+          <HeaderBtn onClick={toggleDarkAtom}>Toggle Mode</HeaderBtn>
+        </HeaderColumn>
       </Header>
       {loading ? (
         <Loader>Loading...</Loader>

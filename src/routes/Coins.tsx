@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -6,6 +5,8 @@ import { fetchCoins } from "../api";
 import { Helmet } from "react-helmet";
 import { useSetRecoilState } from "recoil";
 import { isDarkAtom } from "../atoms";
+import { HeaderBtn } from "../components/HeaderButton";
+import { Header, HeaderColumn } from "../components/Header";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -13,24 +14,16 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const Header = styled.header`
-  height: 10vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const CoinsList = styled.ul``;
 
 const Coin = styled.li`
-  background-color: white;
+  background-color: ${(props) => props.theme.componentColor};
   color: ${(props) => props.theme.textColor};
   margin-bottom: 10px;
   border-radius: 15px;
   a {
     padding: 20px;
     transition: color 0.2s ease-in-out;
-    display: block;
     display: flex;
     align-items: center;
   }
@@ -68,20 +61,8 @@ interface ICoin {
   is_active: boolean;
   type: string;
 }
-/*const [coins, setCoins] = useState<CoinInterface[]>([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    (async () => {
-      const response = await fetch("https://api.coinpaprika.com/v1/coins");
-      const json = await response.json();
-      setCoins(json.slice(0, 100));
-      setLoading(false);
-    })();
-  }, []);*/
 
-interface ICoinsProps {}
-
-function Coins({}: ICoinsProps) {
+function Coins() {
   const setDarkAtom = useSetRecoilState(isDarkAtom);
   const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
@@ -92,8 +73,15 @@ function Coins({}: ICoinsProps) {
         <title>코인</title>
       </Helmet>
       <Header>
-        <Title>코인</Title>
-        <button onClick={toggleDarkAtom}>Toggle Mode</button>
+        <HeaderColumn>
+          <HeaderBtn isInVisible={true}> &larr; </HeaderBtn>
+        </HeaderColumn>
+        <HeaderColumn>
+          <Title>코인</Title>
+        </HeaderColumn>
+        <HeaderColumn>
+          <HeaderBtn onClick={toggleDarkAtom}>Toggle Mode</HeaderBtn>
+        </HeaderColumn>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
