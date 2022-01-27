@@ -30,6 +30,67 @@ function Chart({ coinId }: ChartProps) {
         "Loading chart..."
       ) : (
         <ApexChart
+          type="candlestick"
+          series={[
+            {
+              name: "ohlc",
+              data: data?.map((price) => ({
+                x: new Date(price.time_close),
+                y: [
+                  price.open.toFixed(2),
+                  price.high.toFixed(2),
+                  price.low.toFixed(2),
+                  price.close.toFixed(2),
+                ],
+              })),
+            },
+          ]}
+          options={{
+            chart: {
+              height: 350,
+              toolbar: {
+                show: false,
+              },
+              background: "transparent",
+            },
+            grid: {
+              show: false,
+            },
+            stroke: {
+              width: 1,
+            },
+            yaxis: {
+              show: false,
+            },
+            xaxis: {
+              type: "datetime",
+              axisBorder: {
+                show: false,
+              },
+              axisTicks: {
+                show: false,
+              },
+              labels: {
+                show: false,
+              },
+            },
+            tooltip: {
+              theme: isDark ? "dark" : "light",
+            },
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+export default Chart;
+/*
+<div>
+      {isLoading ? (
+        "Loading chart..."
+      ) : (
+        <ApexChart
           type="line"
           series={[
             {
@@ -78,7 +139,4 @@ function Chart({ coinId }: ChartProps) {
         />
       )}
     </div>
-  );
-}
-
-export default Chart;
+*/
