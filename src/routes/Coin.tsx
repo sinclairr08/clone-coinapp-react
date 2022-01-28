@@ -38,6 +38,7 @@ const Overview = styled.div`
   justify-content: space-between;
   background-color: ${(props) => props.theme.componentColor};
   padding: 10px 20px;
+  margin: 15px 0px;
   border-radius: 10px;
 `;
 
@@ -55,13 +56,13 @@ const OverviewItem = styled.div`
 `;
 
 const Description = styled.p`
-  margin: 20px 0px;
+  margin: 10px 0px;
 `;
 
 const Tabs = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  margin: 25px 0px;
+  margin: 15px 0px;
   gap: 10px;
 `;
 
@@ -189,7 +190,9 @@ function Coin() {
               <span>${tickersData?.quotes.USD.price.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
-          <Description>{infoData?.description}</Description>
+          <Overview>
+            <Description>{infoData?.description}</Description>
+          </Overview>
           <Overview>
             <OverviewItem>
               <span>Total Supply:</span>
