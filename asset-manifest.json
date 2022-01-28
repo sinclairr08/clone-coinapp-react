@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/react-master-coinapp/static/js/main.e27a7ec1.js",
+    "main.js": "/react-master-coinapp/static/js/main.3368dd32.js",
     "index.html": "/react-master-coinapp/index.html",
-    "main.e27a7ec1.js.map": "/react-master-coinapp/static/js/main.e27a7ec1.js.map"
+    "main.3368dd32.js.map": "/react-master-coinapp/static/js/main.3368dd32.js.map"
   },
   "entrypoints": [
-    "static/js/main.e27a7ec1.js"
+    "static/js/main.3368dd32.js"
   ]
 }
