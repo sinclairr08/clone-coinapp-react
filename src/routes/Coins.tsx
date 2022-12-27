@@ -97,7 +97,7 @@ function Coins() {
               >
                 {coin.rank}
                 <Img
-                  src={`https://cryptoicon-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
+                  src={`https://static.coinpaprika.com/coin/${coin.id}/logo.png`}
                 />
                 {coin.name} &rarr;
               </Link>
